@@ -1,2 +1,2 @@
-# Simulateur de systèmes de calculs 
-en cours de dev, il faut montrer le coté de la même couleur pour attraper
+# The TRIGONOMETISATOR
+faire tourner un disque vers les bonnes couleurs, un bon exercice en JS et en python
