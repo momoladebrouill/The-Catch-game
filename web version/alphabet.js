@@ -1,19 +1,19 @@
-var canvas = document.getElementById("game");
-var context = canvas.getContext("2d"),
-W = window.innerWidth,
-H = window.innerHeight,
+let canvas = document.getElementById("game");
+let context = canvas.getContext("2d"),
+			W = window.innerWidth,
+			H = window.innerHeight,
 ratio = window.devicePixelRatio;
 canvas.width = W*ratio;
 canvas.height = H*ratio;
 canvas.style.width = W + "px";
 canvas.style.height = H + "px";
 context.scale(ratio,ratio);
-var tau=2*Math.PI
+const tau=2*Math.PI
 let score=0
 let level=2
-var angle=0
-var fakeangle=0
-var count=0
+let angle=0
+let fakeangle=0
+let count=0
 document.addEventListener("keydown", keydown, false);
 function keydown(e){
 	v=e.keyCode
@@ -81,8 +81,8 @@ function bLoop() {
 	context.fillStyle = "black";
 	context.fillRect(0,0,W,H);
 	context.closePath()
-	var nextarmada=[]
-	for (var i = 0; i <=armada.length-1; i++) {
+	let nextarmada=[]
+	for (let i = 0; i <=armada.length-1; i++) {
 		//armada[i].val=armada[i].landedon()
 		armada[i].draw()
 		if (distToCenter(armada[i])>100){
@@ -103,7 +103,7 @@ function bLoop() {
 		level=parseInt(score/10)+2
 	}
 	fakeangle+=(angle-fakeangle)/7
-	for (var i = 0; i < level; i++) {
+	for (let i = 0; i < level; i++) {
 		context.beginPath()
 		context.moveTo(W/2,H/2)
 		context.fillStyle="hsl("+i/level*360+",50%,50%)"
