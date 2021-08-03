@@ -9,11 +9,12 @@ canvas.style.width = W + "px";
 canvas.style.height = H + "px";
 context.scale(ratio,ratio);
 const tau=2*Math.PI
-let score=0
-let level=2
+let score=30
+let level=0
 let angle=0
 let fakeangle=0
 let count=0
+const speed=1
 document.addEventListener("keydown", keydown, false);
 function keydown(e){
 	v=e.keyCode
@@ -31,6 +32,7 @@ function keydown(e){
 	}else if(v==27){
 		angle=0
 	}
+	angle=angle%tau
 	//shell.textContent+=v+"\n";
 	//context.fillStyle = "blue";
 	//context.fillText(v,v*10,v*10);
@@ -45,22 +47,27 @@ class Missile{
 	}
 	draw(){
 		this.move()
+		
+		if(this.val!=this.landedon()){
+			context.beginPath();
+			context.fillStyle="white";
+			context.arc(this.x,this.y,11,0,tau);
+			context.fill();
+			context.closePath();
+		}
 		context.beginPath();
 		context.fillStyle="hsl("+this.val*360+",50%,50%)";
 		context.arc(this.x,this.y,10,0,tau);
 		context.fill();
 		context.closePath();
-		if(this.val!=this.landedon()){
-			context.fillText(this.landedon(),this.x,this.y)}
 	}
 	move(){
-		this.x+=this.dir[0]/5;
-		this.y+=this.dir[1]/5;
+		this.x+=this.dir[0]*speed;
+		this.y+=this.dir[1]*speed;
 	}
 	landedon(){
-		let ang=Math.atan2(H/2-this.y,W/2-this.x)-Math.abs(angle%tau)
-		ang+=Math.PI//pour passer de -pi pi à 0 tau
-		ang=Math.abs(ang%tau)
+		let ang=this.attack-angle-Math.PI
+		ang=Math.abs(ang)%tau
 		return parseInt(ang/tau*level)/level
 	}
 }
@@ -83,7 +90,7 @@ function bLoop() {
 	context.closePath()
 	let nextarmada=[]
 	for (let i = 0; i <=armada.length-1; i++) {
-		//armada[i].val=armada[i].landedon()
+		armada[i].val=armada[i].landedon()
 		armada[i].draw()
 		if (distToCenter(armada[i])>100){
 			nextarmada.push(armada[i])
@@ -98,11 +105,11 @@ function bLoop() {
 
 	}
 	armada=[...nextarmada]
-	if(parseInt(score/10)+2!=level){
+	/*if(parseInt(score/10)+2!=level){
 		armada=[]
 		level=parseInt(score/10)+2
-	}
-	fakeangle+=(angle-fakeangle)/7
+	}*/
+	fakeangle=angle
 	for (let i = 0; i < level; i++) {
 		context.beginPath()
 		context.moveTo(W/2,H/2)
@@ -110,7 +117,7 @@ function bLoop() {
 		context.arc(W/2,H/2,100,i/level*tau+fakeangle,(i+1)/level*tau+fakeangle);
 		context.fill()
 		let k=(i+0.5)/level*tau+fakeangle
-		context.fillText(i/level,W/2+Math.cos(k)*150,H/2+Math.sin(k)*150)
+		//context.fillText(i/level,W/2+Math.cos(k)*150,H/2+Math.sin(k)*150)
 		context.closePath()
 	}
 	context.beginPath()
