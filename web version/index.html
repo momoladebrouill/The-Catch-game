@@ -5,18 +5,28 @@
 	<style type="text/css">
 		canvas{
                 display:block;
+                position: static;
             }
             html,body{
                 margin:0px;
             }
+        #score{
+        	font-size: 25px;
+        	font-family: cursive;
+        	position: absolute;
+        	height: 0px;
+        	width: 100%;
+        	text-align: center;
+        	color: white;
+        }
 	</style>
 	<title>tests</title>
 </head>
 
 <body>
+	<p id="score">Score</p>
 	<canvas id="game"></canvas>
 	<script src="alphabet.js"></script>
-	<!--p id="shell"></p-->
        
 </body>
 </html>
