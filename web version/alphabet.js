@@ -12,9 +12,9 @@ context.scale(ratio,ratio);
 class Missile{
 	constructor(){
 		this.angle=Math.random()*TAU;
-		this.x=(-Math.cos(this.angle)+1)*H/2+W/4
-		this.y=(-Math.sin(this.angle)+1)*H/2
-		this.vec=[Math.cos(this.angle),Math.sin(this.angle)]
+		this.x=(Math.cos(this.angle)+1)*W/2
+		this.y=(Math.sin(this.angle)+1)*H/2
+		this.vec=[(W/2-this.x)/W*2,(H/2-this.y)/H*2]
 		this.val=parseInt(Math.random()*level)/level*360
 	}
 	draw(){
@@ -27,7 +27,7 @@ class Missile{
 			context.closePath();
 		}
 		context.beginPath();
-		context.fillStyle="hsl("+this.val+",50%,50%)";
+		context.fillStyle="hsl("+this.val+",100%,50%)";
 		context.arc(this.x,this.y,10,0,TAU);
 		context.fill();
 		context.closePath();
@@ -55,7 +55,7 @@ function distToCenter(m){return Math.sqrt((W/2-m.x)**2+(H/2-m.y)**2)
 }
 
 const TAU=2*Math.PI
-let score=0
+let score=10
 let level=2
 let angle=0
 let fakeangle=0
@@ -104,14 +104,19 @@ function bLoop() {
 	fakeangle+=(angle-fakeangle)/7
 	for (let i = 0; i <= level; i++) {
 		context.beginPath()
+		
+		context.shadowBlur=15
 		context.moveTo(W/2,H/2)
-		context.fillStyle="hsl("+i/level*360+",50%,50%)"
+
+		context.fillStyle="hsl("+i/level*360+",100%,50%)"
+		context.shadowColor=context.fillStyle
 		context.arc(W/2,H/2,100,i/level*TAU+fakeangle,(i+1)/level*TAU+fakeangle);
 		context.fill()
 		//let k=(i+0.5)/level*TAU+fakeangle
 		//context.fillStyle="white"
 		//context.fillText(i/level*360,W/2+Math.cos(k)*150,H/2+Math.sin(k)*150)
 		context.closePath()
+		context.shadowBlur=0
 	}
 	score_dr.textContent=score
 	for(elem in dict){
